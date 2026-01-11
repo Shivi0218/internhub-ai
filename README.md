@@ -73,13 +73,15 @@ If you want to run this project on your own machine:
 
 ---
 
+##  Project Structure
+```text
 internhub-ai/
-├── 📄 app.py              # Main Application (UI & Logic)
-├── 📄 ai_engine.py        # (Optional) Separated Logic Module
-├── 📄 requirements.txt    # Production Dependencies
-├── 📄 README.md           # Documentation
-└── 📄 .gitignore          # Security (Excludes .env)
-
+├── 📄 app.py              # Frontend: Streamlit Dashboard & UI
+├── 📄 ai_engine.py        # Backend: Gemini API Logic & Prompt Engineering
+├── 📄 requirements.txt    # Dependencies: List of libraries used
+├── 📄 .gitignore          # Security: Ensures .env and venv are not uploaded
+└── 📄 README.md           # Documentation: Project overview and setup
+```
 ---
 
 ##  Assumptions & Decisions
