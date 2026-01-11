@@ -1,39 +1,42 @@
 import os
-import time
 import google.generativeai as genai
 from dotenv import load_dotenv
 
 load_dotenv()
 
 def analyze_profile(student_profile, job_description):
-    genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-    
-    # USE THE EXACT NAME FROM YOUR LIST
+    # Ensure API Key is present
+    api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key:
+        return "Error: GEMINI_API_KEY not found in environment variables."
+        
+    genai.configure(api_key=api_key)
     model = genai.GenerativeModel("gemini-flash-latest")
 
+    # Structured Prompt for Professional Output
     prompt = f"""
-    You are an expert HR Specialist and AI Career Coach. 
-    Analyze the following student profile against the internship description.
-    
+    You are a professional ATS (Applicant Tracking System) Expert and Career Coach.
+    Analyze the student profile against the Internship JD.
+
     STUDENT PROFILE:
     {student_profile}
 
     INTERNSHIP DESCRIPTION:
     {job_description}
 
-    Please provide the following in your response:
-    1. Match Percentage (0-100% Score)
-    2. Internship Match Summary (How well do they fit?)
-    3. Skill Gap Explanation (What specific technical or soft skills are missing?)
-    4. Resume Improvement Suggestions (How can they tailor their resume for this specific JD?)
-    5. Final Recommendation (Short "Hire" or "Train" recommendation)
+    Provide the response with these specific sections:
+    1. ATS & CONFIDENCE SCORE: (Give a % score and a brief justification)
+    2. INTERNSHIP MATCH SUMMARY: (A concise summary of their fit)
+    3. SKILL GAP EXPLANATION: (List missing technical and soft skills)
+    4. SIMPLE RECOMMENDATION: (Provide a clear 'Hire' or 'Train' verdict)
+    5. TAILORED RESUME REWRITE: (Rewrite their profile into a professional resume format optimized for this JD)
     """
 
     try:
         response = model.generate_content(prompt)
         return response.text
     except Exception as e:
-        # If rate limit (429) happens, give a clear message
+        # Essential Rate Limit (429) Handling
         if "429" in str(e):
              return "⚠️ AI Busy: You hit the free quota limit. Please wait 1 minute and try again."
         return f"Error connecting to AI: {str(e)}"

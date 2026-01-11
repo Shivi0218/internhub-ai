@@ -1,45 +1,46 @@
-# InternHub AI: Intelligent Resume Matcher
+#  InternHub AI: Intelligent Resume Matcher
 
 ![Python](https://img.shields.io/badge/Python-3.11-blue?style=for-the-badge&logo=python&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
 ![Gemini AI](https://img.shields.io/badge/AI-Google_Gemini-4285F4?style=for-the-badge&logo=google&logoColor=white)
 
-### 🔗 [Live Demo Available Here](https://internapp-ai-bw9loguvnykw5oyy2otybt.streamlit.app)
+### 🔗 [Live Demo Available Here](https://internhub-ai-shivi0218.streamlit.app)
 
 ---
 
 ##  Project Overview
-**InternHub AI** is not just a keyword matcher. It is an AI-powered evaluation engine designed to simulate a human technical recruiter. 
-
-Traditional Application Tracking Systems (ATS) often reject good candidates because they lack exact keywords. This tool uses **Google's Gemini 1.5 Pro/Flash model** to understand the *context* of a candidate's experience and compare it semantically against a Job Description (JD).
+**InternHub AI** is an AI-powered evaluation engine designed to simulate a human technical recruiter. Unlike traditional Applicant Tracking Systems (ATS) that rely on rigid keyword matching, this tool uses **Google's Gemini 1.5 Flash model** to understand the *context* of a candidate's experience and compare it semantically against a Job Description (JD).
 
 ###  Key Features
-* **Semantic Matching:** Analyzes meaning, not just words (e.g., understands that "sklearn" relates to "Machine Learning").
+* **PDF Support:** Users can upload Job Descriptions directly as PDF files (processed via `pdfplumber`).
+* **Semantic Matching:** Analyzes meaning rather than just counting words (e.g., understanding that "CNNs" implies "Deep Learning").
 * **Quantified Fit Score:** Generates a 0-100% match score based on technical alignment.
-* **Gap Analysis:** Identifies specific "Missing Skills" that are critical for the role.
-* **Actionable Feedback:** Acts as a Career Coach, offering specific resume tailoring advice.
+* **Tailored Resume Rewrites:** The AI rewrites the candidate's profile into a professional format optimized for the specific JD.
+* **Downloadable Reports:** Users can download the full analysis and rewritten resume as a text file.
+
 ---
 
-##  Technical Architecture
+## Technical Architecture
 
-###  Tech Stack
-* **Frontend:** `Streamlit` (Python) - Chosen for rapid development and interactive data visualization.
-* **AI Model:** `Google Gemini Flash` - Selected for its high reasoning capability, large context window, and low latency.
-* **Logic:** `Prompt Engineering` - Custom "Role-Playing" system prompts to enforce structured JSON output.
+### Tech Stack
+* **Frontend:** `Streamlit` (Python) - Interactive dashboard with real-time status updates and file handling.
+* **PDF Processing:** `pdfplumber` - For robust extraction of text from uploaded Job Description PDFs.
+* **AI Model:** `Google Gemini 1.5 Flash` (via `google-genai` SDK) - Selected for its high reasoning capability and large context window.
+* **Environment:** `python-dotenv` - For secure API key management.
 * **Deployment:** Streamlit Community Cloud (CI/CD connected to GitHub).
 
 ---
 
-###  How It Works (The Logic)
-1.  **Data Ingestion:** The app captures unstructured text (Skills, Projects, Experience) from the user.
-2.  **Context Construction:** It combines the User Profile + Job Description into a single context block.
-3.  **Prompt Engineering:** The system sends a strict instruction set to the LLM:
-    > *"You are an Expert Technical Recruiter. Analyze this candidate against this JD. Ignore formatting fluff. Focus on proven skills. Return response in structured format."*
-4.  **Response Parsing:** The app cleans the AI response and renders it into a user-friendly Dashboard UI.
+## How It Works (The Logic)
+1.  **Data Ingestion:** The app captures unstructured text (Skills, Projects, Experience) from the user and supports both Text and PDF inputs for Job Descriptions.
+2.  **Context Construction:** It combines the Student Profile and the Job Description into a single prompt context block.
+3.  **Prompt Engineering:** A custom "Role-Playing" system prompt instructs the Gemini LLM to act as an **"Expert Technical Recruiter."**
+    * *Instruction:* "Analyze this candidate against this JD. Ignore formatting fluff. Focus on proven skills. Return response in structured Markdown format."
+4.  **Response Parsing:** The app renders the AI's analysis into a structured UI and provides a downloadable text file option.
 
 ---
 
-##  How to Run Locally
+## How to Run Locally
 
 If you want to run this project on your own machine:
 
@@ -73,10 +74,10 @@ If you want to run this project on your own machine:
 
 ---
 
-##  Project Structure
+## Project Structure
 ```text
 internhub-ai/
-├── 📄 app.py              # Frontend: Streamlit Dashboard & UI
+├── 📄 app.py              # Frontend: Streamlit Dashboard & PDF Logic
 ├── 📄 ai_engine.py        # Backend: Gemini API Logic & Prompt Engineering
 ├── 📄 requirements.txt    # Dependencies: List of libraries used
 ├── 📄 .gitignore          # Security: Ensures .env and venv are not uploaded
@@ -85,18 +86,19 @@ internhub-ai/
 ---
 
 ## Assumptions Made
-* **Model Choice:** I selected `gemini-flash-latest` because it offers the optimal balance of **low latency** (speed) and **reasoning accuracy** for text analysis tasks compared to larger, slower models.
-* **Input Format:** The current version assumes text-based input for flexibility. In a future production environment, I would assume integration with `PyPDF2` to parse PDF resumes directly.
+* **Model Choice:** I selected `gemini-1.5-flash` because it offers the optimal balance of **low latency** (speed) and **reasoning accuracy** for real-time text analysis.
+* **PDF Handling:** The current PDF parser (`pdfplumber`) assumes the uploaded JDs are text-based PDFs, not scanned images.
 * **Scoring Logic:** The match score is AI-generated based on semantic relevance rather than a deterministic keyword count algorithm. This mimics the subjective but expert nature of human hiring.
 * **Data Privacy:** User data is processed in-session and is not stored persistently in a database for this prototype.
 
 ---
-##  Future Improvements
-* **Document Parsing:** Integrate `PyPDF2` or `python-docx` to allow users to upload PDF/Word resumes directly, removing the need for manual copy-pasting.
-* **User Authentication:** Implement **Google/GitHub OAuth** (via Firebase or Streamlit-Authenticator) to allow users to save their profile and history securely.
-* **Visual Analytics:** Add interactive charts (using `Plotly` or `Altair`) to track how a user's resume match score improves over time with different edits.
-* **Job Market Insights:** Connect to external APIs (like LinkedIn or Indeed) to fetch real-time "Trending Skills" for the specific role being analyzed.
-* **Multi-Model Support:** Abstract the AI layer to allow users to switch between **Gemini 1.5**, **GPT-4**, or **Claude 3** for comparative analysis.
+
+## Future Improvements
+* **OCR Integration:** Add `pytesseract` to handle scanned/image-based PDF uploads.
+* **User Authentication:** Implement **Google/GitHub OAuth** (via Firebase) to allow users to save their profile history.
+* **Visual Analytics:** Add interactive charts (using `Plotly`) to track how a user's resume match score improves over time.
+* **Job Market Insights:** Connect to external APIs (like LinkedIn) to fetch real-time "Trending Skills" for the specific role.
+* **Multi-Model Support:** Abstract the AI layer to allow users to switch between Gemini, GPT-4, or Claude for comparative analysis.
 
 ---
 

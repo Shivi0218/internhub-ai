@@ -1,123 +1,94 @@
 import streamlit as st
 from ai_engine import analyze_profile
+import pdfplumber
 
-# 1. Page Configuration
+# 1. Page Setup
 st.set_page_config(page_title="InternHub AI", page_icon="🎓", layout="wide")
 
-# 2. Premium CSS (Adaptive & Beautiful)
+# 2. Professional Styling
 st.markdown("""
     <style>
-    /* Import modern font */
-    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+    html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
+    .stApp { background-color: #0E1117; }
     
-    html, body, [class*="css"] {
-        font-family: 'Outfit', sans-serif;
-    }
-
-    /* Gradient Header Text (Centered) */
-    .gradient-text {
-        background: -webkit-linear-gradient(45deg, #FF512F, #DD2476);
+    .main-title {
+        background: linear-gradient(90deg, #FF512F, #DD2476);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        font-weight: 700;
-        font-size: 3.5rem;
-        text-align: center;
-        padding-bottom: 10px;
+        font-weight: 800; font-size: 3.2rem; text-align: center;
     }
     
-    .subtitle {
-        text-align: center;
-        font-size: 1.2rem;
-        opacity: 0.8;
-        margin-bottom: 20px;
-    }
-
-    /* Modern Card Styling */
-    .stTextArea, .stTextInput {
-        background-color: transparent !important;
-    }
-    
-    div[data-testid="stExpander"] {
-        background-color: rgba(255, 255, 255, 0.05);
-        border-radius: 10px;
-        border: 1px solid rgba(128, 128, 128, 0.2);
-    }
-
-    /* The "Magic" Button */
-    .stButton>button {
-        background: linear-gradient(90deg, #FF512F 0%, #DD2476 100%);
-        color: white;
-        border: none;
-        border-radius: 12px;
-        height: 4em;
-        width: 100%;
-        font-weight: 600;
-        font-size: 18px;
-        letter-spacing: 1px;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(221, 36, 118, 0.4);
-    }
-    .stButton>button:hover {
-        transform: scale(1.02);
-        box-shadow: 0 8px 25px rgba(221, 36, 118, 0.6);
-    }
-    
-    /* Subheaders */
-    h3 {
-        font-weight: 600;
-        opacity: 0.9;
+    /* Premium Button */
+    div.stButton > button {
+        background: linear-gradient(90deg, #FF512F 0%, #DD2476 100%) !important;
+        color: white !important; border: none !important;
+        border-radius: 8px !important; height: 3.5rem !important;
+        width: 100%; font-weight: 700 !important;
     }
     </style>
     """, unsafe_allow_html=True)
 
-# 3. Header Section (Centered, No Icon)
-st.markdown('<div class="gradient-text">InternHub AI</div>', unsafe_allow_html=True)
-st.markdown('<div class="subtitle"> Your Personal AI Career Coach</div>', unsafe_allow_html=True)
-
+st.markdown('<div class="main-title">InternHub AI</div>', unsafe_allow_html=True)
+st.markdown('<p style="text-align:center; opacity:0.7;">ATS-Optimized Resume Analysis & Strategy</p>', unsafe_allow_html=True)
 st.markdown("---")
 
-# 4. Main Split Layout (Profile vs Job)
+# 3. Dual-Column Input
 col1, col2 = st.columns(2, gap="large")
 
 with col1:
-    st.markdown("### 👤 Your Profile")
-    st.caption("Tell the AI about yourself.")
-    
-    with st.container():
-        skills = st.text_area(" Technical Skills", placeholder="e.g. Python, SQL, React, AWS...", height=120)
-        interests = st.text_area(" Interests", placeholder="e.g. AI Agents, Fintech, Data Viz...", height=100)
-        experience = st.text_area(" Experience / Projects", placeholder="e.g. Built a weather app using API...", height=150)
+    st.markdown("### Candidate Profile")
+    with st.container(border=True):
+        u_skills = st.text_area("Skills", placeholder="e.g. Python, SQL, NLP", height=80)
+        u_interests = st.text_area("Interests", placeholder="e.g. Machine Learning, Fintech", height=80)
+        u_exp = st.text_area("Projects & Experience", placeholder="Describe your background...", height=150)
+        student_data = f"Skills: {u_skills}\nInterests: {u_interests}\nExperience: {u_exp}"
 
 with col2:
-    st.markdown("### 💼 Target Internship")
-    st.caption("Paste the details of the job you want.")
-    
-    with st.container():
-        jd_role = st.text_input("Role Title", placeholder="e.g. AI Engineering Intern")
-        jd_skills = st.text_input("Required Skills (from JD)", placeholder="e.g. PyTorch, NLP, Docker")
-        jd_desc = st.text_area(" Job Description", placeholder="Paste the full JD text here...", height=300)
+    st.markdown("### Job Description")
+    with st.container(border=True):
+        role_title = st.text_input("Role Title", placeholder="e.g. Data Science Intern")
+        
+        # RESTRICTION: One JD option either Text or PDF
+        jd_toggle = st.toggle("Upload PDF instead of Pasting", value=False)
+        
+        final_jd = ""
+        if not jd_toggle:
+            final_jd = st.text_area("Paste JD Content", height=230)
+        else:
+            uploaded_file = st.file_uploader("Upload JD PDF", type=["pdf"])
+            if uploaded_file:
+                try:
+                    with pdfplumber.open(uploaded_file) as pdf:
+                        pages = [page.extract_text() for page in pdf.pages]
+                        final_jd = "\n".join(filter(None, pages))
+                    st.success(f"Loaded PDF: {uploaded_file.name}")
+                except Exception as e:
+                    st.error("Error reading PDF. Please ensure it is a valid text-based PDF.")
 
-# 5. Action Section
-st.markdown("---")
-analyze_btn = st.button(" ANALYZE MATCH & OPTIMIZE RESUME ")
-
-# 6. Results Display
-if analyze_btn:
-    if not skills or not jd_desc:
-        st.warning(" Please fill in your **Skills** and the **Job Description** above.")
+# 4. Action and Output
+st.markdown("<br>", unsafe_allow_html=True)
+if st.button("Generate Match Analysis & Tailored Resume"):
+    if not u_skills or not final_jd:
+        st.error("Incomplete Data: Please provide both your skills and the job description.")
     else:
-        # Simple spinner
-        with st.spinner("Analyzing..."):
-            # Combine Inputs
-            full_jd = f"Role: {jd_role}\nRequired Skills: {jd_skills}\nDescription: {jd_desc}"
-            student = f"Skills: {skills}\nInterests: {interests}\nExperience: {experience}"
+        with st.status("AI Analyzing Data...", expanded=True) as status:
+            full_jd_input = f"Role: {role_title}\nJD: {final_jd}"
+            report = analyze_profile(student_data, full_jd_input)
+            status.update(label="Analysis Complete", state="complete", expanded=False)
 
-            # Run Logic
-            result_text = analyze_profile(student, full_jd)
-        
-        # Display Results
-        st.markdown("###  Analysis Report")
-        
-        # Using a container for the result to make it stand out
-        with st.container():
-            st.markdown(result_text)
+        # Handling Results
+        if "⚠️ AI Busy" in report:
+            st.warning(report)
+        else:
+            st.markdown("## Career Optimization Report")
+            with st.container(border=True):
+                st.markdown(report)
+                
+                # Download Option
+                st.download_button(
+                    label="Download Report & Resume",
+                    data=report,
+                    file_name=f"{role_title.replace(' ', '_')}_Report.txt",
+                    mime="text/plain"
+                )
