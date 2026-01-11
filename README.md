@@ -24,7 +24,7 @@ Traditional Application Tracking Systems (ATS) often reject good candidates beca
 
 ###  Tech Stack
 * **Frontend:** `Streamlit` (Python) - Chosen for rapid development and interactive data visualization.
-* **AI Model:** `Google Gemini 1.5 Flash` - Selected for its high reasoning capability, large context window, and low latency.
+* **AI Model:** `Google Gemini Flash` - Selected for its high reasoning capability, large context window, and low latency.
 * **Logic:** `Prompt Engineering` - Custom "Role-Playing" system prompts to enforce structured JSON output.
 * **Deployment:** Streamlit Community Cloud (CI/CD connected to GitHub).
 
@@ -100,12 +100,9 @@ internhub-ai/
 
 ---
 
-##  Author Details
-
-| Field | Detail |
-| :--- | :--- |
-| **Name** | Shivi Parashar |
-| **Role** | AI Engineering Intern Applicant |
-| **University** | [Bennett University] |
-| **Batch** | [2026] |
-| **Enrollment** | [E22CSEU0401] |
+##  Author
+**Shivi Parashar**
+* **Role:** AI Engineering Intern Applicant
+* **University:** Bennett University  
+* **Batch:** 2026
+* **Enrollment:** E22CSEU0401
