@@ -9,23 +9,24 @@
 ---
 
 ##  Project Overview
-**InternHub AI** is an AI-powered evaluation engine designed to simulate a human technical recruiter. Unlike traditional Applicant Tracking Systems (ATS) that rely on rigid keyword matching, this tool uses **Google's Gemini 1.5 Flash model** to understand the *context* of a candidate's experience and compare it semantically against a Job Description (JD).
+**InternHub AI** is an AI-powered evaluation engine designed to simulate a human technical recruiter. Unlike traditional Applicant Tracking Systems (ATS) that rely on rigid keyword matching, this tool uses **Google's Gemini Flash model** to understand the *context* of a candidate's experience and compare it semantically against a Job Description (JD).
 
-###  Key Features
-* **PDF Support:** Users can upload Job Descriptions directly as PDF files (processed via `pdfplumber`).
-* **Semantic Matching:** Analyzes meaning rather than just counting words (e.g., understanding that "CNNs" implies "Deep Learning").
-* **Quantified Fit Score:** Generates a 0-100% match score based on technical alignment.
-* **Tailored Resume Rewrites:** The AI rewrites the candidate's profile into a professional format optimized for the specific JD.
-* **Downloadable Reports:** Users can download the full analysis and rewritten resume as a text file.
+### Key Features
+* **Adaptive Premium UI:** A glassmorphic dashboard that automatically adjusts for **Light and Dark modes** for a seamless user experience.
+* **Smart PDF Parsing:** Robust extraction of job requirements from PDF files using `pdfplumber`.
+* **Chain-of-Thought Analysis:** Advanced AI logic that evaluates skill "depth" and "evidence" rather than just existence.
+* **Tailored Career Strategy:** Provides optimized resume summaries and specific project recommendations to fill identified gaps.
+* **One-Click Export:** Download your full gap analysis and rewritten resume content as a professional text report.
 
 ---
 
 ## Technical Architecture
 
 ### Tech Stack
+* **Core:** `Python 3.11+`
 * **Frontend:** `Streamlit` (Python) - Interactive dashboard with real-time status updates and file handling.
 * **PDF Processing:** `pdfplumber` - For robust extraction of text from uploaded Job Description PDFs.
-* **AI Model:** `Google Gemini 1.5 Flash` (via `google-genai` SDK) - Selected for its high reasoning capability and large context window.
+* **AI Model:** `Google Gemini Flash` - Selected for its high reasoning capability and large context window.
 * **Environment:** `python-dotenv` - For secure API key management.
 * **Deployment:** Streamlit Community Cloud (CI/CD connected to GitHub).
 
