@@ -10,21 +10,16 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# 2. Advanced Premium CSS
+# 2. Adaptive Premium CSS (Works for both Light and Dark Mode)
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
     
-    /* Global Styles */
+    /* Global Font reset */
     html, body, [class*="css"] {
         font-family: 'Inter', sans-serif;
-        color: #E0E0E0;
     }
     
-    .stApp {
-        background: radial-gradient(circle at top left, #1a1c23, #0e1117);
-    }
-
     /* Animated Gradient Title */
     .main-title {
         background: linear-gradient(-45deg, #FF512F, #DD2476, #FF512F, #DD2476);
@@ -33,7 +28,7 @@ st.markdown("""
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         font-weight: 800; 
-        font-size: 4rem; 
+        font-size: clamp(2rem, 8vw, 4rem); 
         text-align: center;
         margin-bottom: 0px;
     }
@@ -47,55 +42,52 @@ st.markdown("""
         text-align: center;
         font-weight: 300;
         letter-spacing: 2px;
-        opacity: 0.6;
+        opacity: 0.7;
         margin-top: -10px;
         margin-bottom: 40px;
     }
 
-    /* Glassmorphic Containers */
+    /* Adaptive Glassmorphic Containers */
     [data-testid="stVerticalBlock"] > div > div[data-testid="stVerticalBlock"] {
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: var(--background-color);
+        background-color: rgba(128, 128, 128, 0.05) !important;
+        border: 1px solid rgba(128, 128, 128, 0.2);
         border-radius: 15px;
         padding: 25px !important;
         backdrop-filter: blur(10px);
     }
 
-    /* Input Field Styling */
+    /* Adaptive Input Fields */
     .stTextArea textarea, .stTextInput input {
-        background-color: rgba(0, 0, 0, 0.2) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        color: #ffffff !important;
+        border: 1px solid rgba(128, 128, 128, 0.2) !important;
         border-radius: 10px !important;
     }
-    .stTextArea textarea:focus {
-        border-color: #DD2476 !important;
-        box-shadow: 0 0 10px rgba(221, 36, 118, 0.2) !important;
-    }
-
+    
     /* Premium Button Optimization */
     div.stButton > button {
         background: linear-gradient(90deg, #FF512F 0%, #DD2476 100%) !important;
         color: white !important;
         border: none !important;
         border-radius: 12px !important;
-        height: 4rem !important;
+        height: 3.5rem !important;
         font-size: 1.1rem !important;
         font-weight: 700 !important;
-        letter-spacing: 1px;
         transition: all 0.3s ease !important;
-        box-shadow: 0 4px 20px rgba(221, 36, 118, 0.3);
-        margin-top: 20px;
+        box-shadow: 0 4px 15px rgba(221, 36, 118, 0.3);
+        margin-top: 10px;
+        width: 100%;
     }
     div.stButton > button:hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 30px rgba(221, 36, 118, 0.5);
+        box-shadow: 0 8px 25px rgba(221, 36, 118, 0.5);
     }
 
-    /* Expander/Status Box */
-    .stStatusWidget {
-        background-color: rgba(0, 0, 0, 0.3) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    /* Footer opacity */
+    .footer-text {
+        text-align: center; 
+        opacity: 0.5; 
+        font-size: 0.8rem;
+        margin-top: 30px;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -108,7 +100,7 @@ st.markdown('<div class="subtitle">AI-POWERED CAREER OPTIMIZATION ENGINE</div>',
 col1, col2 = st.columns(2, gap="large")
 
 with col1:
-    st.markdown("### Candidate Profile")
+    st.markdown("### 👤 Candidate Profile")
     with st.container():
         u_skills = st.text_area("Technical Skills", placeholder="e.g. Python, TensorFlow, SQL", height=90)
         u_interests = st.text_area("Interests", placeholder="e.g. Computer Vision, Algorithmic Trading", height=90)
@@ -116,7 +108,7 @@ with col1:
         student_data = f"Skills: {u_skills}\nInterests: {u_interests}\nExperience: {u_exp}"
 
 with col2:
-    st.markdown("### Target Opportunity")
+    st.markdown("### 🎯 Target Opportunity")
     with st.container():
         role_title = st.text_input("Internship Role", placeholder="e.g. AI Engineering Intern")
         
@@ -139,7 +131,7 @@ with col2:
 
 # 5. The Analysis Action
 st.markdown("---")
-if st.button("INITIATE AI GAP ANALYSIS"):
+if st.button("INITIATE ANALYSIS"):
     if not u_skills or not final_jd:
         st.error("Missing Information: Please provide both your profile details and the target JD.")
     else:
@@ -151,11 +143,10 @@ if st.button("INITIATE AI GAP ANALYSIS"):
         if "⚠️ AI Busy" in report:
             st.warning(report)
         else:
-            st.markdown("## 📊 Strategic Optimization Report")
+            st.markdown("## Strategic Optimization Report")
             with st.container():
                 st.markdown(report)
                 
-                # Stylish download section
                 st.write("---")
                 st.download_button(
                     label="📥 SAVE REPORT & RESUME AS .TXT",
@@ -165,4 +156,4 @@ if st.button("INITIATE AI GAP ANALYSIS"):
                 )
 
 # 6. Footer
-st.markdown("<br><p style='text-align: center; opacity: 0.5; font-size: 0.8rem;'>Built for InternHub AI| Shivi Parashar</p>", unsafe_allow_html=True)
+st.markdown("<p class='footer-text'>Built for InternHub AI </p>", unsafe_allow_html=True)
