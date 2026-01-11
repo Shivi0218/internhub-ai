@@ -85,7 +85,7 @@ internhub-ai/
 ---
 
 ##  Assumptions & Decisions
-* **Model Choice:** I selected `gemini-1.5-flash-latest` (or `gemini-pro`) because it offers the best balance of **low latency** and **high reasoning capability** for this specific text-analysis task.
+* **Model Choice:** I selected `gemini-flash-latest`because it offers the best balance of **low latency** and **high reasoning capability** for this specific text-analysis task.
 * **Input Format:** The current version assumes text-based input. In a production environment, I would integrate `PyPDF2` to parse PDF resumes directly.
 * **Scoring Logic:** The score is AI-generated based on semantic relevance, not a deterministic algorithm. This mimics the subjective nature of human hiring.
 
