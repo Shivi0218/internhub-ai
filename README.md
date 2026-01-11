@@ -8,17 +8,17 @@
 
 ---
 
-## 📖 Overview
+##  Overview
 **InternHub AI** is a semantic analysis tool designed to bridge the gap between students and internships. Unlike traditional ATS systems that rely on simple keyword matching, this tool uses **Google's Gemini 1.5 Flash LLM** to "read" a resume like a human recruiter would.
 
 It analyzes the *context* of a student's skills and compares it against the specific requirements of a Job Description (JD) to provide:
-1.  **📊 Match Score:** A quantified percentage of fit.
-2.  **⚠️ Skill Gap Analysis:** Identification of critical missing tools or concepts.
-3.  **📝 Resume Optimization:** Actionable, specific advice to tailor the resume for that specific role.
+1.  ** Match Score:** A quantified percentage of fit.
+2.  ** Skill Gap Analysis:** Identification of critical missing tools or concepts.
+3.  ** Resume Optimization:** Actionable, specific advice to tailor the resume for that specific role.
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 * **Frontend:** Python (Streamlit) for a clean, responsive "SaaS-style" dashboard.
 * **AI Engine:** Google Gemini (Generative AI SDK) for reasoning and text analysis.
 * **Environment:** `python-dotenv` for secure API key management.
@@ -26,7 +26,7 @@ It analyzes the *context* of a student's skills and compares it against the spec
 
 ---
 
-## 🧠 How It Works (The Logic)
+##  How It Works (The Logic)
 The core value of this project lies in its **System Prompt Design**.
 
 1.  **Data Ingestion:** The app accepts unstructured text inputs for "Student Profile" (Skills, Interests, Experience) and "Target Internship" (Role, JD, Required Skills).
@@ -36,7 +36,7 @@ The core value of this project lies in its **System Prompt Design**.
 
 ---
 
-## 🚀 How to Run Locally
+##  How to Run Locally
 
 If you want to run this project on your own machine:
 
@@ -70,14 +70,14 @@ If you want to run this project on your own machine:
 
 ---
 
-## 📝 Assumptions & Decisions
+##  Assumptions & Decisions
 * **Model Choice:** I selected `gemini-1.5-flash-latest` (or `gemini-pro`) because it offers the best balance of **low latency** and **high reasoning capability** for this specific text-analysis task.
 * **Input Format:** The current version assumes text-based input. In a production environment, I would integrate `PyPDF2` to parse PDF resumes directly.
 * **Scoring Logic:** The score is AI-generated based on semantic relevance, not a deterministic algorithm. This mimics the subjective nature of human hiring.
 
 ---
 
-## 👤 Author
+##  Author
 **Shivi Parashar**
 * **Role:** AI Engineering Intern Applicant
 * **Assignment:** InternHub AI Track 2
