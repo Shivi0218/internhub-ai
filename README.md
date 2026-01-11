@@ -4,7 +4,7 @@
 ![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
 ![Gemini AI](https://img.shields.io/badge/AI-Google_Gemini-4285F4?style=for-the-badge&logo=google&logoColor=white)
 
-### 🔗 [Live Demo Available Here](https://internhub-ai-shivi0218.streamlit.app)
+### 🔗 [Live Demo Available Here](https://internapp-ai-bw9loguvnykw5oyy2otybt.streamlit.app/)
 
 ---
 
