@@ -87,7 +87,7 @@ internhub-ai/
 ---
 
 ## Assumptions Made
-* **Model Choice:** I selected `gemini-1.5-flash` because it offers the optimal balance of **low latency** (speed) and **reasoning accuracy** for real-time text analysis.
+* **Model Choice:** I selected `gemini-flash` because it offers the optimal balance of **low latency** (speed) and **reasoning accuracy** for real-time text analysis.
 * **PDF Handling:** The current PDF parser (`pdfplumber`) assumes the uploaded JDs are text-based PDFs, not scanned images.
 * **Scoring Logic:** The match score is AI-generated based on semantic relevance rather than a deterministic keyword count algorithm. This mimics the subjective but expert nature of human hiring.
 * **Data Privacy:** User data is processed in-session and is not stored persistently in a database for this prototype.
