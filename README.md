@@ -4,35 +4,38 @@
 ![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
 ![Gemini AI](https://img.shields.io/badge/AI-Google_Gemini-4285F4?style=for-the-badge&logo=google&logoColor=white)
 
-### 🔗 [Live Demo Available Here](https://internhub-ai-shivi0218.streamlit.app)
+### 🔗 [Live Demo Available Here](https://internapp-ai-bw9loguvnykw5oyy2otybt.streamlit.app)
 
 ---
 
-##  Overview
-**InternHub AI** is a semantic analysis tool designed to bridge the gap between students and internships. Unlike traditional ATS systems that rely on simple keyword matching, this tool uses **Google's Gemini 1.5 Flash LLM** to "read" a resume like a human recruiter would.
+##  Project Overview
+**InternHub AI** is not just a keyword matcher. It is an AI-powered evaluation engine designed to simulate a human technical recruiter. 
 
-It analyzes the *context* of a student's skills and compares it against the specific requirements of a Job Description (JD) to provide:
-1.  ** Match Score:** A quantified percentage of fit.
-2.  ** Skill Gap Analysis:** Identification of critical missing tools or concepts.
-3.  ** Resume Optimization:** Actionable, specific advice to tailor the resume for that specific role.
+Traditional Application Tracking Systems (ATS) often reject good candidates because they lack exact keywords. This tool uses **Google's Gemini 1.5 Pro/Flash model** to understand the *context* of a candidate's experience and compare it semantically against a Job Description (JD).
+
+###  Key Features
+* **Semantic Matching:** Analyzes meaning, not just words (e.g., understands that "sklearn" relates to "Machine Learning").
+* **Quantified Fit Score:** Generates a 0-100% match score based on technical alignment.
+* **Gap Analysis:** Identifies specific "Missing Skills" that are critical for the role.
+* **Actionable Feedback:** Acts as a Career Coach, offering specific resume tailoring advice.
+---
+
+##  Technical Architecture
+
+###  Tech Stack
+* **Frontend:** `Streamlit` (Python) - Chosen for rapid development and interactive data visualization.
+* **AI Model:** `Google Gemini 1.5 Flash` - Selected for its high reasoning capability, large context window, and low latency.
+* **Logic:** `Prompt Engineering` - Custom "Role-Playing" system prompts to enforce structured JSON output.
+* **Deployment:** Streamlit Community Cloud (CI/CD connected to GitHub).
 
 ---
 
-##  Tech Stack
-* **Frontend:** Python (Streamlit) for a clean, responsive "SaaS-style" dashboard.
-* **AI Engine:** Google Gemini (Generative AI SDK) for reasoning and text analysis.
-* **Environment:** `python-dotenv` for secure API key management.
-* **Version Control:** Git & GitHub.
-
----
-
-##  How It Works (The Logic)
-The core value of this project lies in its **System Prompt Design**.
-
-1.  **Data Ingestion:** The app accepts unstructured text inputs for "Student Profile" (Skills, Interests, Experience) and "Target Internship" (Role, JD, Required Skills).
-2.  **Prompt Engineering:** I constructed a role-playing system prompt that instructs the LLM to act as an **"Expert Technical Recruiter."**
-3.  **Semantic Analysis:** instead of `if "Python" in text`, the AI evaluates if the student's *experience* with Python matches the *depth* required by the JD.
-4.  **Graceful Error Handling:** Implemented `try-except` blocks to handle API rate limits and connection timeouts, ensuring a smooth user experience.
+###  How It Works (The Logic)
+1.  **Data Ingestion:** The app captures unstructured text (Skills, Projects, Experience) from the user.
+2.  **Context Construction:** It combines the User Profile + Job Description into a single context block.
+3.  **Prompt Engineering:** The system sends a strict instruction set to the LLM:
+    > *"You are an Expert Technical Recruiter. Analyze this candidate against this JD. Ignore formatting fluff. Focus on proven skills. Return response in structured format."*
+4.  **Response Parsing:** The app cleans the AI response and renders it into a user-friendly Dashboard UI.
 
 ---
 
@@ -70,14 +73,32 @@ If you want to run this project on your own machine:
 
 ---
 
+internhub-ai/
+├── 📄 app.py              # Main Application (UI & Logic)
+├── 📄 ai_engine.py        # (Optional) Separated Logic Module
+├── 📄 requirements.txt    # Production Dependencies
+├── 📄 README.md           # Documentation
+└── 📄 .gitignore          # Security (Excludes .env)
+
+---
+
 ##  Assumptions & Decisions
 * **Model Choice:** I selected `gemini-1.5-flash-latest` (or `gemini-pro`) because it offers the best balance of **low latency** and **high reasoning capability** for this specific text-analysis task.
 * **Input Format:** The current version assumes text-based input. In a production environment, I would integrate `PyPDF2` to parse PDF resumes directly.
 * **Scoring Logic:** The score is AI-generated based on semantic relevance, not a deterministic algorithm. This mimics the subjective nature of human hiring.
 
 ---
+##  Future Improvements
+* **Document Parsing:** Integrate `PyPDF2` or `python-docx` to allow users to upload PDF/Word resumes directly, removing the need for manual copy-pasting.
+* **User Authentication:** Implement **Google/GitHub OAuth** (via Firebase or Streamlit-Authenticator) to allow users to save their profile and history securely.
+* **Visual Analytics:** Add interactive charts (using `Plotly` or `Altair`) to track how a user's resume match score improves over time with different edits.
+* **Job Market Insights:** Connect to external APIs (like LinkedIn or Indeed) to fetch real-time "Trending Skills" for the specific role being analyzed.
+* **Multi-Model Support:** Abstract the AI layer to allow users to switch between **Gemini 1.5**, **GPT-4**, or **Claude 3** for comparative analysis.
+
+---
 
 ##  Author
 **Shivi Parashar**
 * **Role:** AI Engineering Intern Applicant
-* **Assignment:** InternHub AI Track 2
+* **Assignment:** InternHub AI 
+* **Focus:** LLMs, Python, AI
