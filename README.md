@@ -84,10 +84,11 @@ internhub-ai/
 ```
 ---
 
-##  Assumptions & Decisions
-* **Model Choice:** I selected `gemini-flash-latest`because it offers the best balance of **low latency** and **high reasoning capability** for this specific text-analysis task.
-* **Input Format:** The current version assumes text-based input. In a production environment, I would integrate `PyPDF2` to parse PDF resumes directly.
-* **Scoring Logic:** The score is AI-generated based on semantic relevance, not a deterministic algorithm. This mimics the subjective nature of human hiring.
+## Assumptions Made
+* **Model Choice:** I selected `gemini-flash-latest` because it offers the optimal balance of **low latency** (speed) and **reasoning accuracy** for text analysis tasks compared to larger, slower models.
+* **Input Format:** The current version assumes text-based input for flexibility. In a future production environment, I would assume integration with `PyPDF2` to parse PDF resumes directly.
+* **Scoring Logic:** The match score is AI-generated based on semantic relevance rather than a deterministic keyword count algorithm. This mimics the subjective but expert nature of human hiring.
+* **Data Privacy:** User data is processed in-session and is not stored persistently in a database for this prototype.
 
 ---
 ##  Future Improvements
@@ -99,8 +100,12 @@ internhub-ai/
 
 ---
 
-##  Author
-**Shivi Parashar**
-* **Role:** AI Engineering Intern Applicant
-* **Assignment:** InternHub AI 
-* **Focus:** LLMs, Python, AI
+##  Author Details
+
+| Field | Detail |
+| :--- | :--- |
+| **Name** | Shivi Parashar |
+| **Role** | AI Engineering Intern Applicant |
+| **University** | [Bennett University] |
+| **Batch** | [2026] |
+| **Enrollment** | [E22CSEU0401] |
